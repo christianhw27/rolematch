@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RoleMatch - Smart Job Aggregator & Matcher untuk Fresh Graduate</title>
+  <meta name="description" content="Tutup 25 tab browser-mu. RoleMatch mencocokkan skill kamu dengan lowongan entry-level yang nyata, menterjemahkan jargon rekruter, dan menggantikan Google Sheets." />
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              300: '#7dd3fc',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e',
+              950: '#082f49',
+            },
+            accent: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            }
+          },
+          animation: {
+            'float': 'float 4s ease-in-out infinite',
+            'pulse-subtle': 'pulseSubtle 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-8px)' },
+            },
+            pulseSubtle: {
+              '0%, 100%': { opacity: '0.85' },
+              '50%': { opacity: '1' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0284c7;
+    }
+
+    /* Custom Glassmorphism */
+    .glass-card {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Text Gradients */
+    .gradient-text {
+      background: linear-gradient(135deg, #0284c7 0%, #38bdf8 50%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradient-hero {
+      background: radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.15) 0%, rgba(245, 158, 11, 0.05) 40%, rgba(255, 255, 255, 0) 70%);
+    }
+
+    /* Active Tab Highlight */
+    .tab-active {
+      background-color: #0284c7 !important;
+      color: #ffffff !important;
+      border-color: #0284c7 !important;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans selection:bg-sky-500 selection:text-white">
+
+  <!-- Notification Banner -->
+  <div class="bg-gradient-to-r from-sky-900 via-sky-800 to-indigo-950 text-white text-xs sm:text-sm py-2 px-4 text-center font-medium border-b border-sky-700/50 flex items-center justify-center gap-2">
+    <span class="bg-amber-400 text-slate-950 text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full">New</span>
+    <span>Special Early Access Fresh Graduate & Career-Starter SI / IT 2026</span>
+    <a href="#cta" class="underline hover:text-amber-300 font-semibold ml-1 inline-flex items-center gap-1">Daftar Sekarang <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="sticky top-0 z-50 glass-nav border-b border-slate-200 transition-all duration-200" id="mainHeader">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="bg-gradient-to-br from-sky-600 to-sky-800 text-white p-2 rounded-xl font-bold flex items-center justify-center shadow-md shadow-sky-600/20 group-hover:scale-105 transition-transform duration-200">
+          <i data-lucide="crosshair" class="w-5 h-5 text-amber-300"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xl font-extrabold tracking-tight text-slate-900 leading-none">Role<span class="text-sky-600">Match</span></span>
+          <span class="text-[10px] text-slate-500 font-semibold tracking-wide">Smart Job Aggregator</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+        <a href="#fitur" class="hover:text-sky-600 transition flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-sky-500"></i> Fitur Utama</a>
+        <a href="#komparasi" class="hover:text-sky-600 transition flex items-center gap-1.5"><i data-lucide="columns-2" class="w-4 h-4 text-emerald-500"></i> Komparasi Tab</a>
+        <a href="#dejargonizer" class="hover:text-sky-600 transition flex items-center gap-1.5"><i data-lucide="languages" class="w-4 h-4 text-amber-500"></i> De-Jargonizer</a>
+        <a href="#tracker" class="hover:text-sky-600 transition flex items-center gap-1.5"><i data-lucide="kanban" class="w-4 h-4 text-purple-500"></i> Pelacak Kanban</a>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="flex items-center gap-3">
+        <button onclick="openCvModal()" class="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold text-sky-700 bg-sky-50 border border-sky-200 hover:bg-sky-100 px-3 py-2 rounded-lg transition">
+          <i data-lucide="file-up" class="w-4 h-4"></i> Simulasi Upload CV
+        </button>
+        <a href="#cta" class="bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition shadow-sm hover:shadow-md hover:shadow-sky-600/20 active:scale-95 flex items-center gap-1.5">
+          <span>Coba Gratis</span>
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </a>
+        <!-- Mobile Menu Toggle -->
+        <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 focus:outline-none">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-3">
+      <a href="#fitur" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-sky-600">Fitur Utama</a>
+      <a href="#komparasi" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-sky-600">Komparasi Tab</a>
+      <a href="#dejargonizer" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-sky-600">De-Jargonizer</a>
+      <a href="#tracker" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-sky-600">Pelacak Kanban</a>
+      <button onclick="toggleMobileMenu(); openCvModal();" class="w-full text-left py-2 text-sky-700 font-medium hover:bg-sky-50 rounded-lg px-2 flex items-center gap-2">
+        <i data-lucide="file-up" class="w-4 h-4"></i> Simulasi Upload CV
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative py-16 md:py-24 gradient-hero overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-3xl mx-auto">
+        
+        <!-- Target Badge -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100/90 border border-sky-200 text-sky-900 text-xs font-bold uppercase tracking-wider mb-6 shadow-sm animate-pulse-subtle">
+          <i data-lucide="sparkles" class="w-4 h-4 text-sky-600"></i> 
+          <span>Didesain Khusus Fresh Graduate & Career-Starter</span>
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight sm:leading-tight">
+          Berhenti Buka 20 Tab.<br />
+          <span class="gradient-text">Temukan Loker Entry-Level Real.</span>
+        </h1>
+
+        <!-- Subheadline -->
+        <p class="mt-6 text-base sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          Hemat <strong class="text-slate-900 font-semibold">2.5 jam per hari</strong>. Dapatkan skor kecocokan visual, komparasi multi-lowongan instan, dan pelacak lamaran terpadu tanpa pusing bikin Google Sheets manual.
+        </p>
+
+        <!-- CTA Action Buttons -->
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+          <button onclick="openCvModal()" class="w-full sm:w-auto px-8 py-4 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl shadow-lg shadow-sky-600/25 transition duration-200 flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5">
+            <i data-lucide="upload-cloud" class="w-5 h-5 text-amber-300"></i>
+            <span>Upload CV & Cek Match Score</span>
+          </button>
+          <a href="#fitur" class="w-full sm:w-auto px-7 py-4 bg-white hover:bg-slate-100 text-slate-700 font-bold rounded-xl border border-slate-300 transition duration-200 shadow-sm flex items-center justify-center gap-2">
+            <span>Lihat Demo Interaktif</span>
+            <i data-lucide="arrow-down-circle" class="w-4 h-4 text-slate-400"></i>
+          </a>
+        </div>
+
+        <div class="mt-4 flex items-center justify-center gap-4 text-xs text-slate-500 font-medium">
+          <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> 100% Gratis fresh grad</span>
+          <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Tanpa Install Software</span>
+          <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Filter Fake Entry Level</span>
+        </div>
+
+        <!-- Interactive Persona Quote Card Switcher -->
+        <div class="mt-12 max-w-2xl mx-auto bg-amber-50/90 border border-amber-200/90 rounded-2xl p-4 sm:p-5 text-left shadow-sm">
+          <div class="flex items-center justify-between mb-3 border-b border-amber-200/60 pb-2">
+            <div class="flex items-center gap-2 text-xs font-bold text-amber-900 uppercase tracking-wider">
+              <i data-lucide="message-square-quote" class="w-4 h-4 text-amber-600"></i>
+              <span>Friksi Utama Yang Kamu Rasakan Saat Ini:</span>
+            </div>
+            <span class="text-[10px] bg-amber-200/60 text-amber-900 px-2 py-0.5 rounded font-semibold">Kevin Persona</span>
+          </div>
+
+          <!-- Interactive Quote Selector -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-2 mb-2">
+              <button onclick="setHeroQuote(1)" id="qBtn1" class="quote-tab-btn active text-xs px-3 py-1 rounded-lg font-semibold border transition bg-amber-600 text-white border-amber-600">1. Syarat Senior Terselubung</button>
+              <button onclick="setHeroQuote(2)" id="qBtn2" class="quote-tab-btn text-xs px-3 py-1 rounded-lg font-semibold border transition bg-white text-amber-900 border-amber-200 hover:bg-amber-100">2. Tool Fatigue (25 Tab)</button>
+              <button onclick="setHeroQuote(3)" id="qBtn3" class="quote-tab-btn text-xs px-3 py-1 rounded-lg font-semibold border transition bg-white text-amber-900 border-amber-200 hover:bg-amber-100">3. Capek Update Sheets</button>
+            </div>
+
+            <div id="heroQuoteContent" class="text-xs sm:text-sm text-amber-950 font-medium leading-relaxed bg-white/80 p-3 rounded-xl border border-amber-200/50">
+              <p class="italic text-slate-800">"Judul lowongannya Junior BA, tapi pas dibuka kualifikasinya minta 3+ tahun pengalaman dan kuasai 10 alat analisis berbeda. Bikin patah semangat sebelum apply..."</p>
+              <div class="mt-2 text-xs text-sky-700 font-semibold flex items-center gap-1">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-sky-600"></i> 
+                <span>Solusi RoleMatch: Detektor otomatis 'Fake Entry Level' menyaring loker berkedok junior.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Visual Teaser (Job Match Engine Simulator) -->
+  <section class="py-12 bg-slate-900 text-white relative">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      
+      <div class="text-center mb-8">
+        <span class="text-xs font-bold text-sky-400 uppercase tracking-widest">Live Product Demo</span>
+        <h2 class="text-2xl sm:text-3xl font-bold mt-1 text-slate-100">Smart Match Engine v1.2</h2>
+        <p class="text-slate-400 text-xs sm:text-sm mt-1">Uji coba simulasi hasil pencocokan CV Kevin (S1 Sistem Informasi) dengan 3 lowongan aktual.</p>
+      </div>
+
+      <!-- Engine Window Card -->
+      <div class="glass-card rounded-2xl shadow-2xl overflow-hidden border border-slate-700">
+        
+        <!-- Header Bar -->
+        <div class="bg-slate-950/80 px-4 py-3 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+            </div>
+            <span class="text-xs text-slate-400 font-mono ml-2 border-l border-slate-800 pl-3">Profile: Kevin_CV_Final.pdf</span>
+          </div>
+
+          <!-- Category Filter Tabs inside Demo -->
+          <div class="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800 text-xs">
+            <button onclick="filterEngineDemo('all')" id="btnDemoAll" class="demo-filter-btn px-2.5 py-1 rounded-md font-medium text-sky-400 bg-slate-800">Semua (3)</button>
+            <button onclick="filterEngineDemo('ba')" id="btnDemoBA" class="demo-filter-btn px-2.5 py-1 rounded-md font-medium text-slate-400 hover:text-white">Business Analyst</button>
+            <button onclick="filterEngineDemo('pa')" id="btnDemoPA" class="demo-filter-btn px-2.5 py-1 rounded-md font-medium text-slate-400 hover:text-white">Product Analyst</button>
+          </div>
+        </div>
+
+        <!-- Demo Content Grid -->
+        <div class="p-4 sm:p-6 grid grid-cols-1 md:grid-cols-3 gap-4" id="engineCardsContainer">
+          
+          <!-- Job Card 1 -->
+          <div class="job-demo-card demo-ba bg-slate-800/90 hover:bg-slate-800 rounded-xl p-4 border border-slate-700/80 transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
+                <span class="text-[10px] uppercase font-bold text-sky-400 bg-sky-950/80 px-2 py-0.5 rounded border border-sky-800">Real Entry Level</span>
+                <span class="text-xs font-bold px-2 py-0.5 bg-emerald-500 text-slate-950 rounded shadow-sm">92% Match</span>
+              </div>
+              <h3 class="font-bold text-white text-base">Associate Business Analyst</h3>
+              <p class="text-xs text-slate-400 mb-3 flex items-center gap-1"><i data-lucide="building-2" class="w-3 h-3"></i> FinTech Digital • Remote / SG</p>
+
+              <!-- Skill match bullet list -->
+              <div class="space-y-2 text-xs border-t border-slate-700/60 pt-3">
+                <div class="flex items-start text-emerald-300 gap-1.5">
+                  <i data-lucide="check-circle2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Skripsi/Proyek:</strong> Pembuatan PRD & UML Flowchart (Sesuai)</span>
+                </div>
+                <div class="flex items-start text-emerald-300 gap-1.5">
+                  <i data-lucide="check-circle2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Tech Skill:</strong> SQL Query & Dashboard Tableau/PowerBI</span>
+                </div>
+                <div class="flex items-start text-amber-300 gap-1.5 bg-amber-950/40 p-1.5 rounded border border-amber-800/40">
+                  <i data-lucide="languages" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+                  <span><strong>De-Jargonized:</strong> "Data-driven Ops" = Cukup analisis Excel pivot table.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between">
+              <span class="text-xs text-slate-300 font-semibold">Rp 7.5M - 9.5M</span>
+              <button onclick="saveJobToKanban('Associate Business Analyst', 'FinTech Digital', '92%')" class="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1 transition">
+                <i data-lucide="bookmark-plus" class="w-3.5 h-3.5"></i> Simpan ke Kanban
+              </button>
+            </div>
+          </div>
+
+          <!-- Job Card 2 -->
+          <div class="job-demo-card demo-pa bg-slate-800/90 hover:bg-slate-800 rounded-xl p-4 border border-slate-700/80 transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
+                <span class="text-[10px] uppercase font-bold text-sky-400 bg-sky-950/80 px-2 py-0.5 rounded border border-sky-800">Magang Valid</span>
+                <span class="text-xs font-bold px-2 py-0.5 bg-emerald-500 text-slate-950 rounded shadow-sm">85% Match</span>
+              </div>
+              <h3 class="font-bold text-white text-base">Junior Product Analyst</h3>
+              <p class="text-xs text-slate-400 mb-3 flex items-center gap-1"><i data-lucide="building-2" class="w-3 h-3"></i> E-Commerce Unicorn • Hybrid Jakarta</p>
+
+              <div class="space-y-2 text-xs border-t border-slate-700/60 pt-3">
+                <div class="flex items-start text-emerald-300 gap-1.5">
+                  <i data-lucide="check-circle2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Pengalaman:</strong> Magang 6 bulan diakui sebagai syarat minim</span>
+                </div>
+                <div class="flex items-start text-emerald-300 gap-1.5">
+                  <i data-lucide="check-circle2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Soft Skill:</strong> Cross-functional communication with developers</span>
+                </div>
+                <div class="flex items-start text-amber-300 gap-1.5 bg-amber-950/40 p-1.5 rounded border border-amber-800/40">
+                  <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Gap Skill:</strong> Butuh dasar Mixpanel / GA4 (Bisa dipelajari 2 hari)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between">
+              <span class="text-xs text-slate-300 font-semibold">Rp 8.0M - 10M</span>
+              <button onclick="saveJobToKanban('Junior Product Analyst', 'E-Commerce Unicorn', '85%')" class="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1 transition">
+                <i data-lucide="bookmark-plus" class="w-3.5 h-3.5"></i> Simpan ke Kanban
+              </button>
+            </div>
+          </div>
+
+          <!-- Job Card 3 -->
+          <div class="job-demo-card demo-ba bg-slate-800/90 hover:bg-slate-800 rounded-xl p-4 border border-slate-700/80 transition duration-200 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
+                <span class="text-[10px] uppercase font-bold text-rose-400 bg-rose-950/80 px-2 py-0.5 rounded border border-rose-800">Fake Entry Flagged</span>
+                <span class="text-xs font-bold px-2 py-0.5 bg-rose-500 text-slate-950 rounded shadow-sm">45% Match</span>
+              </div>
+              <h3 class="font-bold text-white text-base">Systems & Data Analyst</h3>
+              <p class="text-xs text-slate-400 mb-3 flex items-center gap-1"><i data-lucide="building-2" class="w-3 h-3"></i> Old Enterprise Tech • Onsite Jakarta</p>
+
+              <div class="space-y-2 text-xs border-t border-slate-700/60 pt-3">
+                <div class="flex items-start text-rose-300 gap-1.5">
+                  <i data-lucide="x-circle" class="w-4 h-4 text-rose-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Syarat Tersembunyi:</strong> Minta sertifikasi SAP & 5th exp (Bukan Fresh Grad)</span>
+                </div>
+                <div class="flex items-start text-rose-300 gap-1.5">
+                  <i data-lucide="x-circle" class="w-4 h-4 text-rose-400 shrink-0 mt-0.5"></i>
+                  <span><strong>Overtime Risk:</strong> Workload 2 orang dijadikan 1 role</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between">
+              <span class="text-xs text-slate-400 italic">Disarankan di-skip</span>
+              <button disabled class="px-3 py-1.5 bg-slate-700 text-slate-500 rounded-lg text-xs font-semibold cursor-not-allowed">
+                Tidak Direkomendasikan
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Feature Breakdown Section -->
+  <section id="fitur" class="py-20 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Dirancang Menghapus Kelelahan Berburu Loker</h2>
+        <p class="text-slate-600 mt-3 text-base">Tiga pilar fitur utama yang memecahkan kebiasaan dan kebingungan fresh graduate secara langsung.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Pillar 1 -->
+        <div class="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center mb-6 shadow-inner">
+              <i data-lucide="gauge" class="w-7 h-7"></i>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-wider text-sky-600">Pilar #1</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-1 mb-3">Skor Kecocokan Visual (%)</h3>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+              Langsung lihat persentase kesesuaian transkrip, pengalaman magang, dan proyek kuliahmu dengan requirement loker tanpa baca wall-of-text rekruter.
+            </p>
+          </div>
+          <ul class="space-y-2 text-xs font-medium text-slate-700 bg-sky-50/60 p-3.5 rounded-xl border border-sky-100">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-sky-600"></i> Deteksi otomatis kata kunci CV</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-sky-600"></i> Flag lowongan 'fake entry level'</li>
+          </ul>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-6 shadow-inner">
+              <i data-lucide="columns-2" class="w-7 h-7"></i>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Pilar #2</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-1 mb-3">Side-by-Side Comparator</h3>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+              Bandingkan gaji, skema kerja (Remote/Onsite), dan beban tugas hingga 3 lowongan sekaligus dalam satu layar komparator yang bersih.
+            </p>
+          </div>
+          <ul class="space-y-2 text-xs font-medium text-slate-700 bg-emerald-50/60 p-3.5 rounded-xl border border-emerald-100">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> Bebas tutup 20 tab browser</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> Matriks perbandingan gaji & benefit</li>
+          </ul>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="bg-white rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center mb-6 shadow-inner">
+              <i data-lucide="layout-grid" class="w-7 h-7"></i>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Pilar #3</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-1 mb-3">Built-in Kanban Tracker</h3>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+              Gantikan Google Sheets manual. Simpan lowongan yang diminati dengan 1-klik, lalu lacak status (Applied, Interview, Offer) secara otomatis.
+            </p>
+          </div>
+          <ul class="space-y-2 text-xs font-medium text-slate-700 bg-purple-50/60 p-3.5 rounded-xl border border-purple-100">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-600"></i> Auto-reminder tanggal interview</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-600"></i> Simpan link & syarat sekali tekan</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- De-Jargonizer Utility Section -->
+  <section id="dejargonizer" class="py-16 bg-white border-t border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-amber-600">Skill De-jargonizer Tool</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Terjemahkan Jargon Rekruter yang Ambigu</h2>
+          <p class="text-slate-600 text-sm mt-1">Klik istilah rekruter di bawah untuk melihat arti sebenarnya untuk fresh graduate.</p>
+        </div>
+        <div class="bg-amber-50 text-amber-900 text-xs px-3 py-2 rounded-lg border border-amber-200 font-semibold flex items-center gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-amber-600"></i> 
+          <span>Menghilangkan Cognitive Friction</span>
+        </div>
+      </div>
+
+      <!-- Dejargonizer Interactive Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Left: Selector Badges -->
+        <div class="space-y-2">
+          <label class="block text-xs font-bold text-slate-500 uppercase">Pilih Jargon Rekruter:</label>
+
+          <button onclick="selectJargon(1)" id="jargonBtn1" class="jargon-btn w-full text-left p-3 rounded-xl border border-amber-500 bg-amber-50 text-amber-950 font-semibold text-xs transition flex items-center justify-between">
+            <span>1. "Fast-paced environment"</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-amber-600"></i>
+          </button>
+
+          <button onclick="selectJargon(2)" id="jargonBtn2" class="jargon-btn w-full text-left p-3 rounded-xl border border-slate-200 hover:border-slate-300 bg-white text-slate-700 font-semibold text-xs transition flex items-center justify-between">
+            <span>2. "Self-starter & rockstar"</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+          </button>
+
+          <button onclick="selectJargon(3)" id="jargonBtn3" class="jargon-btn w-full text-left p-3 rounded-xl border border-slate-200 hover:border-slate-300 bg-white text-slate-700 font-semibold text-xs transition flex items-center justify-between">
+            <span>3. "Data-driven Operations"</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+          </button>
+
+          <button onclick="selectJargon(4)" id="jargonBtn4" class="jargon-btn w-full text-left p-3 rounded-xl border border-slate-200 hover:border-slate-300 bg-white text-slate-700 font-semibold text-xs transition flex items-center justify-between">
+            <span>4. "Competitive salary"</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+          </button>
+        </div>
+
+        <!-- Right: Translation Result Display -->
+        <div class="md:col-span-2 bg-slate-900 text-slate-100 rounded-2xl p-6 border border-slate-800 shadow-lg flex flex-col justify-between" id="jargonDisplay">
+          <div>
+            <div class="flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
+              <span class="bg-amber-500 text-slate-950 text-[10px] uppercase font-bold px-2 py-0.5 rounded">Hasil Translasi Realistis</span>
+              <span class="text-xs text-slate-400 font-mono" id="jargonTitle">Jargon: "Fast-paced environment"</span>
+            </div>
+
+            <div class="space-y-4">
+              <div>
+                <span class="text-xs text-rose-400 font-bold uppercase tracking-wider block mb-1">Maksud Rekruter Sebenarnya:</span>
+                <p class="text-sm text-slate-200 leading-relaxed font-medium bg-slate-800/80 p-3 rounded-xl border border-slate-700" id="jargonMeaning">
+                  "Prioritas tugas bisa berubah mendadak dalam hitungan jam. Ekspektasi respon cepat dan siap beradaptasi dengan alur kerja yang belum fully-documented."
+                </p>
+              </div>
+
+              <div>
+                <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider block mb-1">Kemampuan Yang Benar-Benar Kamu Butuhkan:</span>
+                <p class="text-sm text-slate-300 bg-slate-800/50 p-3 rounded-xl border border-slate-700/60" id="jargonSkill">
+                  • Manajemen waktu sederhana (Trello / Notion basic)<br />
+                  • Komunikasi proaktif jika menemui hambatan<br />
+                  • Tidak butuh 5 tahun pengalaman, hanya fleksibilitas mindset.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+            <span>Diterjemahkan oleh RoleMatch AI De-jargonizer</span>
+            <span class="text-emerald-400 font-semibold">Tingkat Akurasi 98%</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Side-by-Side Job Comparator Section (#komparasi) -->
+  <section id="komparasi" class="py-16 bg-slate-100 border-t border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-bold uppercase tracking-widest text-emerald-600">Anti Tool Fatigue</span>
+        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight mt-1">Komparasi 3 Loker Berdampingan</h2>
+        <p class="text-slate-600 text-sm mt-2">Bandingkan aspek penting antar lowongan pekerjaan tanpa perlu berpindah-pindah 20 tab browser.</p>
+      </div>
+
+      <!-- Interactive Comparator Table / Cards -->
+      <div class="overflow-x-auto pb-4">
+        <table class="w-full text-left border-collapse bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden min-w-[700px]">
+          <thead>
+            <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+              <th class="p-4 w-1/4">Parameter Komparasi</th>
+              <th class="p-4 w-1/4 border-l border-slate-800 bg-sky-950/60 text-sky-300">Loker A: Assoc. BA (Fintech)</th>
+              <th class="p-4 w-1/4 border-l border-slate-800">Loker B: Jr Product Analyst</th>
+              <th class="p-4 w-1/4 border-l border-slate-800 text-slate-400">Loker C: IT Business Specialist</th>
+            </tr>
+          </thead>
+          <tbody class="text-xs sm:text-sm divide-y divide-slate-200 font-medium">
+            <tr>
+              <td class="p-4 bg-slate-50 font-bold text-slate-700">Skor Match CV Kevin</td>
+              <td class="p-4 border-l border-slate-200 font-extrabold text-emerald-600 bg-emerald-50/50">92% (Sangat Cocok)</td>
+              <td class="p-4 border-l border-slate-200 font-extrabold text-emerald-600">85% (Cocok)</td>
+              <td class="p-4 border-l border-slate-200 font-bold text-rose-500">48% (Banyak Gap)</td>
+            </tr>
+            <tr>
+              <td class="p-4 bg-slate-50 font-bold text-slate-700">Estimasi Gaji Clean</td>
+              <td class="p-4 border-l border-slate-200 font-semibold text-slate-900">Rp 7.5 - 9.5 Juta/bln</td>
+              <td class="p-4 border-l border-slate-200 font-semibold text-slate-900">Rp 8.0 - 10.0 Juta/bln</td>
+              <td class="p-4 border-l border-slate-200 text-slate-500">Rp 5.0 - 6.0 Juta/bln</td>
+            </tr>
+            <tr>
+              <td class="p-4 bg-slate-50 font-bold text-slate-700">Skema Kerja & Lokasi</td>
+              <td class="p-4 border-l border-slate-200 text-slate-700">100% Remote (Semarang/SG)</td>
+              <td class="p-4 border-l border-slate-200 text-slate-700">Hybrid (2 Hari Office Jakarta)</td>
+              <td class="p-4 border-l border-slate-200 text-slate-700">100% Onsite Industrial Area</td>
+            </tr>
+            <tr>
+              <td class="p-4 bg-slate-50 font-bold text-slate-700">Syarat Pengalaman Real</td>
+              <td class="p-4 border-l border-slate-200 text-emerald-700 font-semibold">Fresh Grad / Proyek Kuliah Valid</td>
+              <td class="p-4 border-l border-slate-200 text-emerald-700 font-semibold">Magang 6 Bulan Diakui</td>
+              <td class="p-4 border-l border-slate-200 text-rose-600 font-semibold">Min 3 Thn (Fake Entry)</td>
+            </tr>
+            <tr>
+              <td class="p-4 bg-slate-50 font-bold text-slate-700">Persyaratan Utama</td>
+              <td class="p-4 border-l border-slate-200 text-slate-600">SQL dasar, Wireframing (Figma), Flowchart UML</td>
+              <td class="p-4 border-l border-slate-200 text-slate-600">Product Requirement Document (PRD), Excel</td>
+              <td class="p-4 border-l border-slate-200 text-slate-600">Sertifikasi SAP ERP, Oracle DB Senior</td>
+            </tr>
+            <tr class="bg-slate-50">
+              <td class="p-4 font-bold text-slate-700">Aksi Cepat</td>
+              <td class="p-4 border-l border-slate-200">
+                <button onclick="saveJobToKanban('Assoc. BA (Fintech)', 'FinTech Digital', '92%')" class="w-full py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-lg font-bold transition shadow-sm">
+                  Simpan Loker A
+                </button>
+              </td>
+              <td class="p-4 border-l border-slate-200">
+                <button onclick="saveJobToKanban('Jr Product Analyst', 'E-Commerce Unicorn', '85%')" class="w-full py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg font-bold transition">
+                  Simpan Loker B
+                </button>
+              </td>
+              <td class="p-4 border-l border-slate-200">
+                <span class="block text-center text-xs text-rose-500 font-semibold italic py-2">Lewati</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Interactive Kanban Application Tracker Section (#tracker) -->
+  <section id="tracker" class="py-20 bg-slate-900 text-slate-100">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-900/60 border border-purple-700 text-purple-300 text-xs font-bold uppercase tracking-wider mb-2">
+            <i data-lucide="sheet" class="w-3.5 h-3.5 text-purple-400"></i> Pengganti Google Sheets Manual
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Live Kanban Pelacak Lamaran</h2>
+          <p class="text-slate-400 text-xs sm:text-sm mt-1">Coba tambah atau pindahkan kartu lamaran di bawah secara langsung!</p>
+        </div>
+
+        <!-- Quick Add Job Form inside Tracker -->
+        <div class="flex items-center gap-2">
+          <input 
+            type="text" 
+            id="kanbanInputTitle" 
+            placeholder="Nama posisi / perusahaan..." 
+            class="bg-slate-800 border border-slate-700 text-xs text-white px-3 py-2.5 rounded-xl focus:outline-none focus:border-purple-500 w-48 sm:w-64"
+          />
+          <button onclick="addKanbanJobFromInput()" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-1 shrink-0">
+            <i data-lucide="plus" class="w-4 h-4"></i> Tambah Loker
+          </button>
+        </div>
+      </div>
+
+      <!-- Kanban Board 4 Columns -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="kanbanBoard">
+        
+        <!-- Column 1: Wishlist / Disimpan -->
+        <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between min-h-[360px]">
+          <div>
+            <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-2.5">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
+                <h3 class="font-bold text-xs uppercase tracking-wider text-slate-300">1. Disimpan (Wishlist)</h3>
+              </div>
+              <span id="countWishlist" class="text-xs font-bold bg-slate-800 px-2 py-0.5 rounded-full text-slate-300">2</span>
+            </div>
+
+            <div class="space-y-3" id="colWishlist">
+              <!-- Card item -->
+              <div class="kanban-item bg-slate-800 border border-slate-700 p-3.5 rounded-xl text-xs space-y-2 relative group hover:border-slate-500 transition">
+                <div class="flex justify-between items-start">
+                  <h4 class="font-bold text-white text-sm">Associate Business Analyst</h4>
+                  <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-bold px-1.5 py-0.5 rounded">92%</span>
+                </div>
+                <p class="text-slate-400">FinTech Digital • Rp 7.5M</p>
+                <div class="flex items-center justify-between pt-2 border-t border-slate-700/60 text-[10px] text-slate-400">
+                  <span>Disimpan 05 Okt</span>
+                  <button onclick="moveKanbanCard(this, 'colApplied')" class="text-sky-400 hover:text-sky-300 font-bold flex items-center gap-0.5">
+                    Apply <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="kanban-item bg-slate-800 border border-slate-700 p-3.5 rounded-xl text-xs space-y-2 relative group hover:border-slate-500 transition">
+                <div class="flex justify-between items-start">
+                  <h4 class="font-bold text-white text-sm">Junior Product Analyst</h4>
+                  <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-bold px-1.5 py-0.5 rounded">85%</span>
+                </div>
+                <p class="text-slate-400">E-Commerce Unicorn • Rp 8.0M</p>
+                <div class="flex items-center justify-between pt-2 border-t border-slate-700/60 text-[10px] text-slate-400">
+                  <span>Disimpan 04 Okt</span>
+                  <button onclick="moveKanbanCard(this, 'colApplied')" class="text-sky-400 hover:text-sky-300 font-bold flex items-center gap-0.5">
+                    Apply <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Applied / Lamaran Terkirim -->
+        <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between min-h-[360px]">
+          <div>
+            <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-2.5">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+                <h3 class="font-bold text-xs uppercase tracking-wider text-sky-400">2. Applied (Terkirim)</h3>
+              </div>
+              <span id="countApplied" class="text-xs font-bold bg-sky-950 text-sky-400 px-2 py-0.5 rounded-full border border-sky-800">1</span>
+            </div>
+
+            <div class="space-y-3" id="colApplied">
+              <div class="kanban-item bg-slate-800 border border-sky-800/60 p-3.5 rounded-xl text-xs space-y-2 relative group transition">
+                <div class="flex justify-between items-start">
+                  <h4 class="font-bold text-white text-sm">Junior IT Operations</h4>
+                  <span class="text-[10px] bg-sky-500/20 text-sky-400 font-bold px-1.5 py-0.5 rounded">80%</span>
+                </div>
+                <p class="text-slate-400">Bank Tech Sub • Hybrid</p>
+                <div class="flex items-center justify-between pt-2 border-t border-slate-700/60 text-[10px] text-slate-400">
+                  <span>Submit 02 Okt</span>
+                  <button onclick="moveKanbanCard(this, 'colInterview')" class="text-amber-400 hover:text-amber-300 font-bold flex items-center gap-0.5">
+                    Interview <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 3: Interview / Seleksi -->
+        <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between min-h-[360px]">
+          <div>
+            <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-2.5">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                <h3 class="font-bold text-xs uppercase tracking-wider text-amber-400">3. Interview (Tahap 2)</h3>
+              </div>
+              <span id="countInterview" class="text-xs font-bold bg-amber-950 text-amber-400 px-2 py-0.5 rounded-full border border-amber-800">1</span>
+            </div>
+
+            <div class="space-y-3" id="colInterview">
+              <div class="kanban-item bg-slate-800 border border-amber-800/60 p-3.5 rounded-xl text-xs space-y-2 relative group transition">
+                <div class="flex justify-between items-start">
+                  <h4 class="font-bold text-white text-sm">System Analyst Intern</h4>
+                  <span class="text-[10px] bg-amber-500/20 text-amber-400 font-bold px-1.5 py-0.5 rounded">Jadwal: 08 Okt</span>
+                </div>
+                <p class="text-slate-400">Logistics Tech • Online Zoom</p>
+                <div class="flex items-center justify-between pt-2 border-t border-slate-700/60 text-[10px] text-slate-400">
+                  <span class="text-amber-300 font-medium">User Interview</span>
+                  <button onclick="moveKanbanCard(this, 'colOffer')" class="text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-0.5">
+                    Diterima <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 4: Offer / Diterima -->
+        <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between min-h-[360px]">
+          <div>
+            <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-2.5">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                <h3 class="font-bold text-xs uppercase tracking-wider text-emerald-400">4. Offer / Diterima</h3>
+              </div>
+              <span id="countOffer" class="text-xs font-bold bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-800">1</span>
+            </div>
+
+            <div class="space-y-3" id="colOffer">
+              <div class="kanban-item bg-emerald-950/40 border border-emerald-700/80 p-3.5 rounded-xl text-xs space-y-2 relative group">
+                <div class="flex justify-between items-start">
+                  <h4 class="font-bold text-white text-sm">Junior BI Specialist</h4>
+                  <span class="text-[10px] bg-emerald-500 text-slate-950 font-extrabold px-1.5 py-0.5 rounded">ACCEPTED</span>
+                </div>
+                <p class="text-emerald-200">Retail AI • Rp 8.5M / bln</p>
+                <div class="flex items-center justify-between pt-2 border-t border-emerald-800/60 text-[10px] text-emerald-300 font-semibold">
+                  <span>Start 15 Okt 2026</span>
+                  <i data-lucide="party-popper" class="w-4 h-4 text-amber-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Social Proof & Relatable Testimonials -->
+  <section class="py-16 bg-white border-t border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-bold uppercase tracking-widest text-sky-600">Testimoni Fresh Graduate</span>
+        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight mt-1">Cerita Mereka Yang Lepas Dari 'Tool Fatigue'</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Testimonial 1 -->
+        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic mb-6">
+            "Dulu tiap sore kepala pusing buka 20 tab LinkedIn + Jobstreet. Pas nyobain RoleMatch, langsung ketahuan lowongan mana yang benar-benar mau nampung lulusan S1 Sistem Informasi tanpa 3 tahun syarat siluman."
+          </p>
+          <div class="flex items-center gap-3 pt-4 border-t border-slate-200">
+            <div class="w-10 h-10 rounded-full bg-sky-600 text-white font-bold flex items-center justify-center text-sm">
+              KR
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-slate-900">Kevin R.</h4>
+              <p class="text-[11px] text-slate-500">Fresh Grad Sistem Informasi • Lulus 2026</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic mb-6">
+            "Fitur De-jargonizer bikin lega banget. Ternyata istilah 'Must hit the ground running' di lowongan cuma butuh penguasaan dasar Excel pivot dan kemauan belajar cepat!"
+          </p>
+          <div class="flex items-center gap-3 pt-4 border-t border-slate-200">
+            <div class="w-10 h-10 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-sm">
+              SA
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-slate-900">Siti A.</h4>
+              <p class="text-[11px] text-slate-500">Junior Business Analyst • Ex-Unnes</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic mb-6">
+            "Kanban trackernya sangat membantu. Dulu Google Sheets saya sering lupa di-update sampai kaget pas ditelfon HR. Sekarang 1-klik beres!"
+          </p>
+          <div class="flex items-center gap-3 pt-4 border-t border-slate-200">
+            <div class="w-10 h-10 rounded-full bg-purple-600 text-white font-bold flex items-center justify-center text-sm">
+              BP
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-slate-900">Bagus P.</h4>
+              <p class="text-[11px] text-slate-500">Product Operations Associate</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Final Call to Action (CTA) Section -->
+  <section id="cta" class="py-20 bg-gradient-to-br from-sky-900 via-sky-800 to-slate-950 text-white relative overflow-hidden">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center relative z-10">
+      
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400 text-slate-950 text-xs font-extrabold uppercase tracking-wider mb-6 shadow-md">
+        <i data-lucide="zap" class="w-4 h-4"></i> Akses Awal 100% Gratis
+      </div>
+
+      <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight">Siap Mempercepat Karier Pertamamu?</h2>
+      <p class="mt-4 text-sky-100 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+        Gabung bersama 500+ fresh graduate yang menghemat 10+ jam per minggu dalam berburu pekerjaan impian.
+      </p>
+
+      <!-- Email Capture Form -->
+      <form onsubmit="handleCtaSubmit(event)" class="mt-8 max-w-md mx-auto flex flex-col sm:flex-row gap-2.5">
+        <input 
+          type="email" 
+          id="ctaEmail" 
+          placeholder="Masukkan email kampus / pribadi" 
+          required 
+          class="flex-1 px-4 py-3.5 rounded-xl text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 font-medium shadow-inner"
+        />
+        <button 
+          type="submit" 
+          class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold px-7 py-3.5 rounded-xl text-sm transition duration-200 shadow-lg shadow-amber-400/20 active:scale-95 flex items-center justify-center gap-2 shrink-0">
+          <span>Dapatkan Akses</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </form>
+
+      <div class="mt-4 flex items-center justify-center gap-6 text-xs text-sky-200">
+        <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> Tidak perlu kartu kredit</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="lock" class="w-4 h-4 text-emerald-400"></i> Privasi CV 100% Terjaga</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-10 bg-slate-950 text-slate-400 text-xs border-t border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="bg-sky-600 text-white p-1.5 rounded-lg font-bold">
+          <i data-lucide="crosshair" class="w-4 h-4"></i>
+        </div>
+        <span class="text-sm font-bold text-white">RoleMatch Platform</span>
+      </div>
+      <p>© 2026 RoleMatch • Terinspirasi & Didesain Khusus dari Persona Kevin (The Career-Starter Explorer)</p>
+      <div class="flex items-center gap-4 text-slate-500">
+        <a href="#fitur" class="hover:text-slate-300 transition">Fitur</a>
+        <a href="#komparasi" class="hover:text-slate-300 transition">Komparasi</a>
+        <a href="#tracker" class="hover:text-slate-300 transition">Kanban</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal 1: Upload CV Simulator -->
+  <div id="cvModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-slate-900 text-white rounded-2xl max-w-lg w-full p-6 border border-slate-800 shadow-2xl relative animate-float">
+      
+      <button onclick="closeCvModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-2 mb-4">
+        <div class="p-2 bg-sky-600/20 text-sky-400 rounded-xl">
+          <i data-lucide="file-text" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-white">Simulasi Analisis Match Score</h3>
+          <p class="text-xs text-slate-400">Pilih profil sampel untuk mencocokkan secara instan.</p>
+        </div>
+      </div>
+
+      <!-- Profile Selector -->
+      <div class="space-y-3 mb-6">
+        <label class="text-xs font-semibold text-slate-300">Pilih Sample Profil:</label>
+        
+        <div onclick="runCvAnalysis('Kevin - S1 Sistem Informasi (Junior BA Focus)')" class="p-3 bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-sky-500 rounded-xl cursor-pointer transition flex items-center justify-between">
+          <div>
+            <h4 class="text-xs font-bold text-white">Kevin R. (S1 Sistem Informasi)</h4>
+            <p class="text-[11px] text-slate-400">Skill: SQL, UML, Wireframing, Excel Pivot • Magang 3 bln</p>
+          </div>
+          <span class="text-xs font-bold text-sky-400">Pilih & analyze →</span>
+        </div>
+
+        <div onclick="runCvAnalysis('Siti - S1 Teknik Informatika (Product Analyst Focus)')" class="p-3 bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-sky-500 rounded-xl cursor-pointer transition flex items-center justify-between">
+          <div>
+            <h4 class="text-xs font-bold text-white">Siti A. (S1 Teknik Informatika)</h4>
+            <p class="text-[11px] text-slate-400">Skill: Python Data, PRD Writing, GA4 • Magang 6 bln</p>
+          </div>
+          <span class="text-xs font-bold text-sky-400">Pilih & analyze →</span>
+        </div>
+      </div>
+
+      <!-- Analysis Status Output -->
+      <div id="cvAnalysisOutput" class="hidden bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-slate-400" id="cvAnalysisProfileName">Menganalisis...</span>
+          <span class="text-emerald-400 font-bold" id="cvAnalysisStatus">100% Complete</span>
+        </div>
+        <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+          <div class="bg-sky-500 h-2 rounded-full w-full transition-all duration-500"></div>
+        </div>
+        <div class="text-xs text-emerald-300 bg-emerald-950/40 p-2.5 rounded-lg border border-emerald-800/40 flex items-center gap-2">
+          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+          <span>Ditemukan <strong>4 Lowongan Matching</strong> dengan skor kesesuaian &gt; 80%!</span>
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-end">
+        <button onclick="closeCvModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-lg text-slate-300">
+          Tutup
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal 2: Success Toast / Banner -->
+  <div id="toastSuccess" class="fixed bottom-6 right-6 z-50 bg-emerald-900 text-emerald-100 border border-emerald-700 px-5 py-3.5 rounded-2xl shadow-2xl hidden items-center gap-3 animate-bounce">
+    <i data-lucide="check-circle2" class="w-6 h-6 text-emerald-400"></i>
+    <div>
+      <h4 class="text-xs font-bold text-white" id="toastTitle">Berhasil!</h4>
+      <p class="text-[11px] text-emerald-200" id="toastMessage">Tindakan telah diproses.</p>
+    </div>
+  </div>
+
+  <!-- Interactive JavaScript -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Hero Quotes Switcher
+    const quotesData = {
+      1: {
+        quote: `"Judul lowongannya Junior BA, tapi pas dibuka kualifikasinya minta 3+ tahun pengalaman dan kuasai 10 alat analisis berbeda. Bikin patah semangat sebelum apply..."`,
+        solution: `Solusi RoleMatch: Detektor otomatis 'Fake Entry Level' menyaring loker berkedok junior secara real-time.`
+      },
+      2: {
+        quote: `"Setiap sore browser saya penuh dengan 25 tab lowongan dari 4 website berbeda. Mau bandingin gaji dan lokasi aja capek banget bolak-balik tab."`,
+        solution: `Solusi RoleMatch: Side-by-side comparator menampilkan 3 loker sekaligus di satu layar tanpa perlu tab baru.`
+      },
+      3: {
+        quote: `"Capek banget catat manual di Google Sheets. Kadang lupa update status lamaran sampai kaget pas dapet email panggilan interview."`,
+        solution: `Solusi RoleMatch: Built-in Kanban Tracker menyimpan & memperbarui status lamaran dengan 1-klik.`
+      }
+    };
+
+    function setHeroQuote(index) {
+      document.querySelectorAll('.quote-tab-btn').forEach((btn, idx) => {
+        if (idx + 1 === index) {
+          btn.classList.add('bg-amber-600', 'text-white', 'border-amber-600');
+          btn.classList.remove('bg-white', 'text-amber-900', 'border-amber-200');
+        } else {
+          btn.classList.remove('bg-amber-600', 'text-white', 'border-amber-600');
+          btn.classList.add('bg-white', 'text-amber-900', 'border-amber-200');
+        }
+      });
+
+      const content = document.getElementById('heroQuoteContent');
+      const data = quotesData[index];
+      content.innerHTML = `
+        <p class="italic text-slate-800">${data.quote}</p>
+        <div class="mt-2 text-xs text-sky-700 font-semibold flex items-center gap-1">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-sky-600"></i> 
+          <span>${data.solution}</span>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    // Engine Demo Category Filter
+    function filterEngineDemo(cat) {
+      document.querySelectorAll('.demo-filter-btn').forEach(btn => {
+        btn.classList.remove('bg-slate-800', 'text-sky-400');
+        btn.classList.add('text-slate-400');
+      });
+
+      const cards = document.querySelectorAll('.job-demo-card');
+      if (cat === 'all') {
+        document.getElementById('btnDemoAll').classList.add('bg-slate-800', 'text-sky-400');
+        cards.forEach(c => c.style.display = 'flex');
+      } else if (cat === 'ba') {
+        document.getElementById('btnDemoBA').classList.add('bg-slate-800', 'text-sky-400');
+        cards.forEach(c => {
+          c.style.display = c.classList.contains('demo-ba') ? 'flex' : 'none';
+        });
+      } else if (cat === 'pa') {
+        document.getElementById('btnDemoPA').classList.add('bg-slate-800', 'text-sky-400');
+        cards.forEach(c => {
+          c.style.display = c.classList.contains('demo-pa') ? 'flex' : 'none';
+        });
+      }
+    }
+
+    // Dejargonizer Interactive Tool
+    const jargonMap = {
+      1: {
+        title: 'Jargon: "Fast-paced environment"',
+        meaning: '"Prioritas tugas bisa berubah mendadak dalam hitungan jam. Ekspektasi respon cepat dan siap beradaptasi dengan alur kerja yang belum fully-documented."',
+        skill: '• Manajemen waktu sederhana (Trello / Notion basic)\n• Komunikasi proaktif jika menemui hambatan\n• Tidak butuh 5 tahun pengalaman, hanya fleksibilitas mindset.'
+      },
+      2: {
+        title: 'Jargon: "Self-starter & rockstar"',
+        meaning: '"Tidak ada program mentoring intensif dari senior. Kamu diharapkan inisiatif membaca dokumentasi proyek yang sudah ada dan langsung eksekusi."',
+        skill: '• Kemampuan Googling & membaca requirement secara mandiri\n• Proaktif bertanya jika stuck > 30 menit\n• Proyek kuliah mandiri sudah sangat cukup.'
+      },
+      3: {
+        title: 'Jargon: "Data-driven Operations"',
+        meaning: '"Keputusan harian dibuat berdasarkan angka di spreadsheet atau dashboard, bukan tebakan insting belaka."',
+        skill: '• Penguasaan dasar Excel (VLOOKUP, Pivot Table)\n• Pengenalan dasar SQL / Power BI (Sesuai mata kuliah SI)\n• Kemampuan membuat kesimpulan ringkas dari grafik.'
+      },
+      4: {
+        title: 'Jargon: "Competitive salary"',
+        meaning: '"Gaji standar industri regional ditambah potensi bonus performa sesuai pencapaian target perusahaan."',
+        skill: '• Pahami standar gaji fresh grad sesuai kota/kabupaten (UMR + 20-50%)\n• Siapkan ekspektasi range gaji yang realistis saat interview.'
+      }
+    };
+
+    function selectJargon(id) {
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById(`jargonBtn${i}`);
+        if (i === id) {
+          btn.className = "jargon-btn w-full text-left p-3 rounded-xl border border-amber-500 bg-amber-50 text-amber-950 font-semibold text-xs transition flex items-center justify-between";
+        } else {
+          btn.className = "jargon-btn w-full text-left p-3 rounded-xl border border-slate-200 hover:border-slate-300 bg-white text-slate-700 font-semibold text-xs transition flex items-center justify-between";
+        }
+      }
+
+      const item = jargonMap[id];
+      document.getElementById('jargonTitle').innerText = item.title;
+      document.getElementById('jargonMeaning').innerText = item.meaning;
+      document.getElementById('jargonSkill').innerHTML = item.skill.replace(/\n/g, '<br />');
+    }
+
+    // Save Job directly to Live Kanban Board
+    function saveJobToKanban(title, company, matchScore) {
+      const colWishlist = document.getElementById('colWishlist');
+      const newCard = document.createElement('div');
+      newCard.className = "kanban-item bg-slate-800 border border-slate-700 p-3.5 rounded-xl text-xs space-y-2 relative group hover:border-slate-500 transition animate-float";
+      newCard.innerHTML = `
+        <div class="flex justify-between items-start">
+          <h4 class="font-bold text-white text-sm">${title}</h4>
+          <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-bold px-1.5 py-0.5 rounded">${matchScore}</span>
+        </div>
+        <p class="text-slate-400">${company}</p>
+        <div class="flex items-center justify-between pt-2 border-t border-slate-700/60 text-[10px] text-slate-400">
+          <span>Ditambahkan barusan</span>
+          <button onclick="moveKanbanCard(this, 'colApplied')" class="text-sky-400 hover:text-sky-300 font-bold flex items-center gap-0.5">
+            Apply <i data-lucide="arrow-right" class="w-3 h-3"></i>
+          </button>
+        </div>
+      `;
+      colWishlist.prepend(newCard);
+      lucide.createIcons();
+      updateKanbanCounts();
+      showToast('Loker Disimpan!', `${title} berhasil masuk ke kolom Kanban Wishlist.`);
+      
+      // Scroll smoothly to tracker section
+      document.getElementById('tracker').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Quick Add from Input inside Kanban Section
+    function addKanbanJobFromInput() {
+      const input = document.getElementById('kanbanInputTitle');
+      const val = input.value.trim();
+      if (!val) return;
+      saveJobToKanban(val, 'Input Manual Fresh Grad', '88%');
+      input.value = '';
+    }
+
+    // Move Kanban card between columns
+    function moveKanbanCard(btnElement, targetColId) {
+      const card = btnElement.closest('.kanban-item');
+      const targetCol = document.getElementById(targetColId);
+
+      if (targetColId === 'colApplied') {
+        card.querySelector('div:last-child').innerHTML = `
+          <span>Status: Terkirim</span>
+          <button onclick="moveKanbanCard(this, 'colInterview')" class="text-amber-400 hover:text-amber-300 font-bold flex items-center gap-0.5">
+            Interview <i data-lucide="arrow-right" class="w-3 h-3"></i>
+          </button>
+        `;
+        showToast('Status Diperbarui', 'Lamaran berhasil dipindahkan ke kolom Applied.');
+      } else if (targetColId === 'colInterview') {
+        card.querySelector('div:last-child').innerHTML = `
+          <span class="text-amber-300 font-medium">Jadwal Interview</span>
+          <button onclick="moveKanbanCard(this, 'colOffer')" class="text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-0.5">
+            Diterima <i data-lucide="arrow-right" class="w-3 h-3"></i>
+          </button>
+        `;
+        showToast('Selamat!', 'Lamaran masuk ke tahap Interview.');
+      } else if (targetColId === 'colOffer') {
+        card.className = "kanban-item bg-emerald-950/40 border border-emerald-700/80 p-3.5 rounded-xl text-xs space-y-2 relative group";
+        card.querySelector('div:last-child').innerHTML = `
+          <span class="text-emerald-300 font-semibold">Tawaran Diterima</span>
+          <i data-lucide="party-popper" class="w-4 h-4 text-amber-300"></i>
+        `;
+        showToast('Hooray! 🎉', 'Selamat atas Job Offer pertamamu!');
+      }
+
+      targetCol.prepend(card);
+      lucide.createIcons();
+      updateKanbanCounts();
+    }
+
+    // Update numbers on Kanban column headers
+    function updateKanbanCounts() {
+      document.getElementById('countWishlist').innerText = document.getElementById('colWishlist').children.length;
+      document.getElementById('countApplied').innerText = document.getElementById('colApplied').children.length;
+      document.getElementById('countInterview').innerText = document.getElementById('colInterview').children.length;
+      document.getElementById('countOffer').innerText = document.getElementById('colOffer').children.length;
+    }
+
+    // Toast Notification System
+    function showToast(title, msg) {
+      const toast = document.getElementById('toastSuccess');
+      document.getElementById('toastTitle').innerText = title;
+      document.getElementById('toastMessage').innerText = msg;
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+
+      setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }, 4000);
+    }
+
+    // Modal Control: CV Simulator
+    function openCvModal() {
+      const modal = document.getElementById('cvModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.getElementById('cvAnalysisOutput').classList.add('hidden');
+    }
+
+    function closeCvModal() {
+      const modal = document.getElementById('cvModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function runCvAnalysis(name) {
+      const out = document.getElementById('cvAnalysisOutput');
+      out.classList.remove('hidden');
+      document.getElementById('cvAnalysisProfileName').innerText = `Menganalisis: ${name}...`;
+      lucide.createIcons();
+    }
+
+    // Handle Early Access Form Submission
+    function handleCtaSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('ctaEmail').value;
+      showToast('Akses Awal Diterima!', `Email ${email} telah terdaftar. Kami akan mengirimkan undangan beta.`);
+      document.getElementById('ctaEmail').value = '';
+    }
+  </script>
+</body>
+</html>
